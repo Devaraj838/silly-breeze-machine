@@ -1,6 +1,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
+import { ContactShadows } from "@react-three/drei";
 
 interface FanSceneProps {
   spinning: boolean;
@@ -40,7 +41,7 @@ function Fan({ spinning }: FanSceneProps) {
   });
 
   return (
-    <group ref={group} position={[0, -0.3, 0]}>
+    <group ref={group} position={[0, -0.2, 0]}>
       {/* Base */}
       <mesh position={[0, -1.2, 0]} material={materials.dark} castShadow receiveShadow>
         <cylinderGeometry args={[0.6, 0.8, 0.25, 24]} />
@@ -56,10 +57,6 @@ function Fan({ spinning }: FanSceneProps) {
         <sphereGeometry args={[0.22, 24, 24]} />
       </mesh>
 
-      {/* Guard ring */}
-      <mesh position={[0, 0.3, 0]} rotation={[Math.PI / 2, 0, 0]} material={materials.ring}>
-        <torusGeometry args={[0.85, 0.03, 16, 64]} />
-      </mesh>
 
       {/* Hub */}
       <mesh position={[0, 0.3, 0.05]} material={materials.dark}>
@@ -100,6 +97,14 @@ export default function FanScene({ spinning }: FanSceneProps) {
         <planeGeometry args={[20, 20]} />
         <meshStandardMaterial color={new THREE.Color(0xf2f5f9)} />
       </mesh>
+
+      <ContactShadows
+        position={[0, -1.3, 0]}
+        opacity={0.35}
+        scale={10}
+        blur={1.8}
+        far={2.5}
+      />
 
       <Fan spinning={spinning} />
     </Canvas>
